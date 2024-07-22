@@ -5,7 +5,7 @@ import django.contrib.auth.validators
 import django.utils.timezone
 from django.db import migrations, models
 
-import app.base.models
+import base
 
 
 class Migration(migrations.Migration):
@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "id",
-                    app.base.models.AlphaIDField(
+                    base.models.AlphaIDField(
                         max_length=16,
                         primary_key=True,
                         serialize=False,
