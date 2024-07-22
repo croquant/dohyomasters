@@ -11,7 +11,12 @@ JAPANESE_PROB = 0.88
 
 def get_pref_probs():
     with open(os.path.join(DIRNAME, "data", "jp_pref_probs.json"), "r") as f:
-        return json.load(f)
+        try:
+            return json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            raise Exception(
+                "Failed to load file 'jp_pref_probs.json': " + str(e)
+            ) from e
 
 
 class ShusshinGenerator:

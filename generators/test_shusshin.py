@@ -14,6 +14,12 @@ class TestShusshinGenerator(unittest.TestCase):
             shusshin = self.generator.get_japanese()
             self.assertEqual(shusshin.prefecture, "Tokyo")
 
+    def test_get_japanese_different_prefecture(self):
+        # Mock the random.choices function to return "Tottori"
+        with patch("random.choices", return_value=["Tottori"]):
+            shusshin = self.generator.get_japanese()
+            self.assertEqual(shusshin.prefecture, "Tottori")
+
     def test_get(self):
         # Mock the random.choices function to always return "Osaka"
         with patch("random.choices", return_value=["Osaka"]):
