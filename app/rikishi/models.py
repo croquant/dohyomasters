@@ -9,6 +9,7 @@ from .constants import (
     DIRECTION_NAMES_SHORT,
     DIVISION_NAMES,
     DIVISION_NAMES_SHORT,
+    JAPAN_PREFECTURES,
     RANK_NAMES,
     RANK_NAMES_SHORT,
     RANKING_LEVELS,
@@ -122,7 +123,11 @@ class Shusshin(models.Model):
     )
     country = CountryField(default="JP")
     prefecture = models.CharField(
-        max_length=32, default=None, blank=True, null=True
+        choices=JAPAN_PREFECTURES,
+        max_length=32,
+        default=None,
+        blank=True,
+        null=True,
     )
 
     def save(self, *args, **kwargs):
@@ -131,6 +136,12 @@ class Shusshin(models.Model):
         else:
             self.slug = slugify(self.country.name)
         super(Shusshin, self).save(*args, **kwargs)
+
+    def __str__(self):
+        if self.country == "JP":
+            return self.prefecture
+        else:
+            return self.country.name
 
     class Meta:
         ordering = ["country", "prefecture"]

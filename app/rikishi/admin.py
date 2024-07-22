@@ -25,7 +25,7 @@ class HeyaAdmin(admin.ModelAdmin):
 
 @admin.register(Shusshin)
 class ShusshinAdmin(admin.ModelAdmin):
-    list_display = ("slug", "country", "prefecture")
+    list_display = ("__str__", "country", "prefecture")
     readonly_fields = ("slug",)
 
 
