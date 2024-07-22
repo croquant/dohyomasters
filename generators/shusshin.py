@@ -2,7 +2,7 @@ import json
 import os
 import random
 
-from app.rikishi.models import Shusshin
+from rikishi.models import Shusshin
 
 DIRNAME = os.path.dirname(__file__)
 

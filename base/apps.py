@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class RikishiConfig(AppConfig):
+class BaseConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "app.rikishi"
+    name = "base"

@@ -5,8 +5,8 @@ from django.conf import settings
 from django.db import migrations, models
 from django.utils.text import slugify
 
-import app.base.models
-from app.rikishi.constants import DIVISION_LEVELS
+from base.models import AlphaIDField
+from rikishi.constants import DIVISION_LEVELS
 
 
 def populate_divisions_forwards(apps, schema_editor):
@@ -75,7 +75,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    app.base.models.AlphaIDField(
+                    AlphaIDField(
                         max_length=16,
                         primary_key=True,
                         serialize=False,
@@ -153,7 +153,7 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    app.base.models.AlphaIDField(
+                    AlphaIDField(
                         max_length=16,
                         primary_key=True,
                         serialize=False,
