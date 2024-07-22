@@ -1,13 +1,12 @@
 import os
 import time
-
-from utils import base26
+from base64 import b32encode
 
 
 def alpha_id():
     timestamp = int(time.time() * 1000)
-    timestamp_bytes = timestamp.to_bytes(6, byteorder="little")
-    random_bytes = os.urandom(3)
-    combined_bytes = random_bytes + timestamp_bytes
-    base26_string = base26.encode(combined_bytes)
-    return base26_string[::-1]
+    timestamp_bytes = timestamp.to_bytes(6, byteorder="big")
+    random_bytes = os.urandom(4)
+    combined_bytes = timestamp_bytes + random_bytes
+    base32_string = b32encode(combined_bytes).decode("utf-8")
+    return base32_string.lower()
