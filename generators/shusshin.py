@@ -31,7 +31,7 @@ def get_country_probs():
             return json.load(f)
         except (FileNotFoundError, json.JSONDecodeError) as e:
             raise Exception(
-                "Failed to load file 'jp_pref_probs.json': " + str(e)
+                "Failed to load file 'foreign_country_probs.json': " + str(e)
             ) from e
 
 
