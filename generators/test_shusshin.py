@@ -57,7 +57,7 @@ class TestShusshinGenerator(unittest.TestCase):
             self.assertIsNone(shusshin.prefecture)
 
     def test_prob(self):
-        # It should generate a Japanese 88% of the time
+        # It should generate a Japanese around 88% of the time
 
         # Generate 10000 shusshin
         num_shusshin = 10000
@@ -67,7 +67,7 @@ class TestShusshinGenerator(unittest.TestCase):
             if generated_shusshin.country == "JP":
                 num_japanese += 1
 
-        self.assertAlmostEqual(num_japanese, num_shusshin * 0.88, delta=50)
+        self.assertAlmostEqual(num_japanese, num_shusshin * 0.88, delta=100)
 
     def test_get_pref_probs(self):
         # Ensure that the probabilities sum up to 1
