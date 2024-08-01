@@ -16,11 +16,11 @@ class AlphaIDFieldTestCase(TestCase):
 
 
 class GameDateTestCase(TestCase):
-    def test_game_month_creation(self):
-        game_month = GameDate.objects.create(year=2023, month=1, day=1)
+    def test_game_date_creation(self):
+        game_date = GameDate.objects.create(year=2023, month=1, day=1)
 
         # Check if the ID is correctly generated
-        self.assertEqual(game_month.id, "2023-01-01")
+        self.assertEqual(game_date.id, "2023-01-01")
 
     def test_game_date_current(self):
         GameDate.objects.create(year=2023, month=1, day=1)
