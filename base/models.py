@@ -24,35 +24,49 @@ class User(AbstractUser):
     last_name = None
 
 
-class GameMonthManager(models.Manager):
+N_MONTHS = 12
+N_DAYS = 24
+
+
+class GameDateManager(models.Manager):
+    def current(self):
+        return self.order_by("year", "month", "day").last()
+
     def tick(self):
-        current_month = self.order_by("year", "number").last()
-        if current_month is None:
-            self.create(year=1, number=1)
+        current_date = self.current()
+        if current_date is None:
+            self.create(year=1, month=1, day=1)
             return
 
-        year = current_month.year
-        month = current_month.number
+        year, month, day = (
+            current_date.year,
+            current_date.month,
+            current_date.day,
+        )
+        day += 1
 
-        if current_month.number == 12:
-            year += 1
-            month = 1
-        else:
+        if day > N_DAYS:
+            day = 1
             month += 1
 
-        self.create(year=year, number=month)
+            if month > N_MONTHS:
+                month = 1
+                year += 1
+
+        return self.create(year=year, month=month, day=day)
 
 
-class GameMonth(models.Model):
+class GameDate(models.Model):
     id = models.SlugField(primary_key=True)
     year = models.PositiveIntegerField()
-    number = models.PositiveIntegerField()
+    month = models.PositiveIntegerField()
+    day = models.PositiveIntegerField()
 
-    objects = GameMonthManager()
+    objects = GameDateManager()
 
     def save(self, *args, **kwargs):
-        self.id = f"{self.year}-{self.number}"
-        super(GameMonth, self).save(*args, **kwargs)
+        self.id = f"{self.year:04d}-{self.month:02d}-{self.day:02d}"
+        super(GameDate, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.year:04d}-{self.number:02d}"
+        return self.id
