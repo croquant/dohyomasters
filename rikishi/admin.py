@@ -52,9 +52,6 @@ class RikishiAdmin(admin.ModelAdmin):
         "rank",
         "heya",
         "shusshin",
-        "height",
-        "weight",
-        "birth_date",
         "debut",
         "intai",
     )
