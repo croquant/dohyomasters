@@ -35,15 +35,35 @@ class TestRikishiGenerator(unittest.TestCase):
         self.assertEqual(rikishi.debut, GameDate(2023, 1, 1))
         self.assertIsInstance(stats, RikishiStats)
         self.assertEqual(stats.rikishi, rikishi)
+        self.assertIsNotNone(rikishi.id)
+        self.assertIsNotNone(stats.rikishi)
+        self.assertEqual(stats.rikishi, rikishi)
+        self.assertGreaterEqual(stats.potential, MIN_POTENTIAL)
+        self.assertLessEqual(stats.potential, MAX_POTENTIAL)
+        self.assertGreaterEqual(stats.current, MIN_POTENTIAL)
+        self.assertLessEqual(stats.current, stats.potential)
 
     def test_get_potential_ability(self):
-        potential = self.generator.get_potential_ability()
-        self.assertTrue(MIN_POTENTIAL <= potential <= MAX_POTENTIAL)
+        for _ in range(100):
+            potential = self.generator.get_potential_ability()
+            self.assertGreaterEqual(potential, MIN_POTENTIAL)
+            self.assertLessEqual(potential, MAX_POTENTIAL)
+
+        with patch("random.triangular", return_value=MIN_POTENTIAL):
+            self.assertEqual(
+                self.generator.get_potential_ability(), MIN_POTENTIAL
+            )
+        with patch("random.triangular", return_value=MAX_POTENTIAL):
+            self.assertEqual(
+                self.generator.get_potential_ability(), MAX_POTENTIAL
+            )
 
     def test_get_current_ability(self):
-        potential = AVG_POTENTIAL
-        current = self.generator.get_current_ability(potential)
-        self.assertTrue(MIN_POTENTIAL <= current <= potential / 2)
+        test_cases = [MIN_POTENTIAL, AVG_POTENTIAL, MAX_POTENTIAL]
+        for potential in test_cases:
+            current = self.generator.get_current_ability(potential)
+            self.assertGreaterEqual(current, MIN_POTENTIAL)
+            self.assertLessEqual(current, potential)
 
     @patch.object(
         RikishiGenerator, "get_potential_ability", return_value=AVG_POTENTIAL
@@ -61,8 +81,29 @@ class TestRikishiGenerator(unittest.TestCase):
             debut=GameDate(2023, 1, 1),
         )
         stats = self.generator.get_stats(rikishi)
+
         self.assertEqual(stats.potential, AVG_POTENTIAL)
+        self.assertEqual(stats.current, MIN_POTENTIAL)
         self.assertEqual(stats.rikishi, rikishi)
+
+        # Verify that mocked methods were called
+        mock_get_potential_ability.assert_called_once()
+        mock_get_current_ability.assert_called_once_with(AVG_POTENTIAL)
+
+        # Test more attributes
+        self.assertIsNotNone(stats.rikishi)
+        self.assertEqual(stats.rikishi, rikishi)
+        self.assertGreaterEqual(stats.strength, 1)
+        self.assertLessEqual(stats.strength, 20)
+        self.assertGreaterEqual(stats.technique, 1)
+        self.assertLessEqual(stats.technique, 20)
+        self.assertGreaterEqual(stats.balance, 1)
+        self.assertLessEqual(stats.balance, 20)
+        self.assertGreaterEqual(stats.endurance, 1)
+        self.assertLessEqual(stats.endurance, 20)
+        self.assertGreaterEqual(stats.mental, 1)
+        self.assertLessEqual(stats.mental, 20)
+        # Add more assertions for other attributes as needed
 
 
 if __name__ == "__main__":
