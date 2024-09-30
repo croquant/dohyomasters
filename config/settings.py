@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django_countries",
     "tailwind",
     "base",
+    "heya",
     "rikishi",
     "frontend",
     "django_browser_reload",

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db.models import Q
 
-from .models import Division, Heya, Rank, Rikishi, Shusshin
+from .models import Division, Rank, Rikishi, Shusshin
 
 
 @admin.register(Division)
@@ -15,12 +15,6 @@ class RankAdmin(admin.ModelAdmin):
     list_display = ("name", "division", "order", "direction")
     readonly_fields = ("slug",)
     list_filter = ("division", "direction")
-
-
-@admin.register(Heya)
-class HeyaAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "master")
-    readonly_fields = ("id",)
 
 
 @admin.register(Shusshin)
