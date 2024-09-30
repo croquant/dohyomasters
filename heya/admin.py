@@ -7,3 +7,4 @@ from .models import Heya
 class HeyaAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "name_jp", "master")
     readonly_fields = ("id",)
+    search_fields = ["name", "name_jp", "master"]
