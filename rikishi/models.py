@@ -4,7 +4,8 @@ from django.db import models
 from django.utils.text import slugify
 from django_countries.fields import CountryField
 
-from base.models import AlphaIDField, GameDate, User
+from base.models import AlphaIDField, GameDate
+from heya.models import Heya
 
 from .constants import (
     DIRECTION_NAMES,
@@ -101,22 +102,6 @@ class Rank(models.Model):
 
     class Meta:
         ordering = ["level", "order", "direction"]
-
-
-class Heya(models.Model):
-    id = AlphaIDField(primary_key=True)
-    name = models.CharField(max_length=32, unique=True)
-    name_jp = models.CharField(max_length=32, unique=True)
-    master = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="heya"
-    )
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ["name"]
-        verbose_name_plural = "Heya"
 
 
 class Shusshin(models.Model):
